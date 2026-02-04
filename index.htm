@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Generating after AI</title>
+  <style>
+    :root{
+      --bg:#0f1724; /* dark navy */
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#7c3aed; /* purple */
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#071028);color:#e6eef8;}
+    .container{max-width:1000px;margin:36px auto;padding:20px}
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+    .site-title{font-size:1.6rem;font-weight:700;letter-spacing:0.2px}
+    .subtitle{color:var(--muted);font-size:0.9rem}
+    nav{display:flex;gap:8px;margin-left:auto}
+    .nav-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:inherit;cursor:pointer}
+    .nav-btn[aria-current="true"]{outline:2px solid rgba(124,58,237,0.25);box-shadow:0 6px 18px rgba(28,24,39,0.6)}
+
+    .hero{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03)}
+    .cover{width:120px;height:120px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg,#111827,#0b1220);display:flex;align-items:center;justify-content:center}
+    .cover img{width:100%;height:100%;object-fit:cover}
+    .controls{display:flex;gap:8px;align-items:center}
+
+    main{margin-top:18px}
+    section.page{display:none;padding:18px;background:var(--card);border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    section.page.active{display:block}
+
+    h2{margin-top:0}
+    .muted{color:var(--muted)}
+
+    /* logistics table */
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03);text-align:left}
+
+    /* simple syllabus list */
+    .week{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);margin-bottom:8px}
+
+    /* small responsive */
+    @media (max-width:720px){
+      header{flex-direction:column;align-items:flex-start}
+      .hero{grid-template-columns:90px 1fr}
+      .container{margin:12px}
+      nav{margin-left:0;width:100%;display:flex;overflow:auto}
+    }
+
+    .uploader{display:flex;gap:8px;align-items:center}
+    input[type=file]{display:none}
+    .btn{background:linear-gradient(90deg,var(--accent),#5b21b6);border:none;padding:8px 12px;border-radius:8px;color:white;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px}
+
+    footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="site-title">Generating after AI</div>
+        <div class="subtitle">Course website — use the nav to explore sections</div>
+      </div>
+
+      <nav role="navigation" aria-label="Main navigation">
+        <button class="nav-btn" data-page="description" aria-current="true">Description</button>
+        <button class="nav-btn" data-page="logistics">Logistics</button>
+        <button class="nav-btn" data-page="syllabus">Syllabus</button>
+        <button class="nav-btn" data-page="resources">Resources</button>
+      </nav>
+    </header>
+
+    <div class="hero" aria-hidden="false">
+      <div class="cover" id="coverPreview">
+        <!-- default placeholder image; replace by uploading -->
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%23aab7d1' font-size='22' text-anchor='middle' dominant-baseline='middle'>Course Image</text></svg>" alt="Course cover">
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <div>
+            <strong>Generating after AI</strong>
+            <div class="muted">An inquiry into creative practice, ethics, and pedagogy after contemporary generative AI</div>
+          </div>
+          <div class="uploader">
+            <label class="btn" for="imageUpload">Upload image</label>
+            <input id="imageUpload" type="file" accept="image/*">
+            <button class="ghost" id="resetImage">Reset</button>
+          </div>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:0.9rem">Tip: upload a course banner or instructor photo. The image is preview-only — save your chosen image separately into your site folder.</div>
+      </div>
+    </div>
+
+    <main>
+      <section id="description" class="page active" role="region" aria-labelledby="descHeading">
+        <h2 id="descHeading">Course description</h2>
+        <p>This course explores the cultural, creative, and pedagogical implications of generative AI systems. We will critically examine tools, datasets, authorship, and social impact while building small creative projects and assignments. Replace this placeholder text with your full course description.</p>
+      </section>
+
+      <section id="logistics" class="page" role="region" aria-labelledby="logisticsHeading">
+        <h2 id="logisticsHeading">Logistics</h2>
+        <p class="muted">Basic course information and meeting details.</p>
+        <table>
+          <tr><th>Instructor</th><td>Your name</td></tr>
+          <tr><th>Email</th><td>you@example.edu</td></tr>
+          <tr><th>Meeting times</th><td>Tue/Thu 2:00–3:50 PM</td></tr>
+          <tr><th>Office hours</th><td>By appointment</td></tr>
+          <tr><th>Location</th><td>Building / Room</td></tr>
+        </table>
+
+        <h3 style="margin-top:12px">Grading</h3>
+        <ul>
+          <li>Participation — 20%</li>
+          <li>Assignments — 40%</li>
+          <li>Final project — 40%</li>
+        </ul>
+      </section>
+
+      <section id="syllabus" class="page" role="region" aria-labelledby="syllabusHeading">
+        <h2 id="syllabusHeading">Syllabus (high-level)</h2>
+        <p class="muted">A weekly breakdown — edit to match your schedule.</p>
+
+        <div class="week"><strong>Week 1</strong> — Introduction: history of generative systems; course overview</div>
+        <div class="week"><strong>Week 2</strong> — Foundations: probability, models, and datasets</div>
+        <div class="week"><strong>Week 3</strong> — Creativity & authorship: case studies</div>
+        <div class="week"><strong>Week 4</strong> — Ethics & bias in generative systems</div>
+        <div class="week"><strong>Week 5</strong> — Tools workshop: text & image generation</div>
+        <div class="week"><strong>Weeks 6–10</strong> — Student projects and critiques</div>
+
+        <details style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+          <summary>Download sample syllabus (editable)</summary>
+          <p style="margin:8px 0" class="muted">You can paste this content into your LMS or a separate PDF.</p>
+          <pre style="white-space:pre-wrap">Week 1: Intro
+Week 2: Readings
+... (replace with your content)</pre>
+        </details>
+      </section>
+
+      <section id="resources" class="page" role="region" aria-labelledby="resourcesHeading">
+        <h2 id="resourcesHeading">Resources</h2>
+        <p class="muted">Core readings, tools, and datasets.</p>
+        <ul>
+          <li><a href="#" style="color:inherit">Reading 1 — Author, Year</a></li>
+          <li><a href="#" style="color:inherit">Tooling: examples and tutorials</a></li>
+          <li><a href="#" style="color:inherit">Dataset notes</a></li>
+        </ul>
+
+        <h3 style="margin-top:12px">Add your own links</h3>
+        <p>Click the "Edit content" button below to reveal quick editors (local only) to update visible text on this page while you're testing the site.</p>
+        <button id="toggleEditor" class="btn">Edit content</button>
+        <div id="editor" style="display:none;margin-top:10px">
+          <textarea id="contentInput" rows="4" style="width:100%;border-radius:8px;padding:8px;background:#071424;color:inherit;border:1px solid rgba(255,255,255,0.03)"></textarea>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="applyContent" class="btn">Apply</button>
+            <button id="clearContent" class="ghost">Clear</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Built with ❤️ — Save this file as <code>index.html</code> and open it in a browser. To publish, upload to your web host or GitHub Pages.
+    </footer>
+  </div>
+
+  <script>
+    // Simple client-side navigation
+    const navButtons = document.querySelectorAll('.nav-btn');
+    function switchPage(page){
+      document.querySelectorAll('section.page').forEach(s=>s.classList.remove('active'));
+      document.getElementById(page).classList.add('active');
+      navButtons.forEach(b=>b.setAttribute('aria-current', b.dataset.page===page? 'true' : 'false'));
+      // update hash
+      history.replaceState(null,'', '#'+page);
+    }
+    navButtons.forEach(btn=>btn.addEventListener('click', ()=>switchPage(btn.dataset.page)));
+    // load from hash if present
+    const initial = location.hash ? location.hash.replace('#','') : 'description';
+    if(document.getElementById(initial)) switchPage(initial);
+
+    // image upload preview
+    const upload = document.getElementById('imageUpload');
+    const cover = document.getElementById('coverPreview').querySelector('img');
+    const reset = document.getElementById('resetImage');
+    let originalSrc = cover.src;
+    upload.addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{ cover.src = ev.target.result; };
+      reader.readAsDataURL(file);
+    });
+    reset.addEventListener('click', ()=>{ cover.src = originalSrc; upload.value = ''; });
+
+    // small local editor for resources (demo only)
+    const toggle = document.getElementById('toggleEditor');
+    const editor = document.getElementById('editor');
+    const input = document.getElementById('contentInput');
+    const apply = document.getElementById('applyContent');
+    const clear = document.getElementById('clearContent');
+    toggle.addEventListener('click', ()=>{ editor.style.display = editor.style.display === 'none' ? 'block' : 'none'; });
+    apply.addEventListener('click', ()=>{
+      const val = input.value.trim();
+      if(!val) return alert('Type something into the editor first.');
+      const ul = document.querySelector('#resources ul');
+      // append new li
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = val; a.href = '#'; a.style.color = 'inherit';
+      li.appendChild(a);
+      ul.appendChild(li);
+      input.value = '';
+    });
+    clear.addEventListener('click', ()=>{ input.value = ''; });
+  </script>
+</body>
+</html>
