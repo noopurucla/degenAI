@@ -88,11 +88,7 @@
             <strong>Generating after AI</strong>
             <div class="muted">An inquiry into creative practice, ethics, and pedagogy after contemporary generative AI</div>
           </div>
-          <div class="uploader">
-            <label class="btn" for="imageUpload">Upload image</label>
-            <input id="imageUpload" type="file" accept="image/*">
-            <button class="ghost" id="resetImage">Reset</button>
-          </div>
+          
         </div>
         <div style="margin-top:12px;color:var(--muted);font-size:0.9rem">Tip: upload a course banner or instructor photo. The image is preview-only — save your chosen image separately into your site folder.</div>
       </div>
@@ -185,19 +181,7 @@ Week 2: Readings
     const initial = location.hash ? location.hash.replace('#','') : 'description';
     if(document.getElementById(initial)) switchPage(initial);
 
-    // image upload preview
-    const upload = document.getElementById('imageUpload');
-    const cover = document.getElementById('coverPreview').querySelector('img');
-    const reset = document.getElementById('resetImage');
-    let originalSrc = cover.src;
-    upload.addEventListener('change', (e)=>{
-      const file = e.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev)=>{ cover.src = ev.target.result; };
-      reader.readAsDataURL(file);
-    });
-    reset.addEventListener('click', ()=>{ cover.src = originalSrc; upload.value = ''; });
+    
 
     // small local editor for resources (demo only)
     const toggle = document.getElementById('toggleEditor');
